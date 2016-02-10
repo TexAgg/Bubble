@@ -18,10 +18,13 @@ class Ball{
 		this.dy = -speed;
 	}
 	
+	label(n){
+		ctx.fillStyle = '#000000';
+		ctx.fillText(n,this.x,this.y);
+	}
 	
 	// http://processingjs.org/learning/topic/bouncybubbles/
 	static collide(){
-		
 		for(var i = 0; i<balls.length; i++){
 			for(var j = i+1; j < balls.length; j++){
 				//console.log('i='+i);
@@ -70,6 +73,7 @@ function draw_balls(){
 	
 	for(var i = 0; i < balls.length; i++){
 		balls[i].draw();
+		balls[i].label(i);
 	}
 }
 
@@ -78,5 +82,5 @@ balls.push(new Ball(300,75,4));
 balls.push(new Ball(100,400,3));
 balls.push(new Ball(250,250,2));
 
-setInterval(draw_balls,15);
-//draw_balls();
+//redraw every 20 milliseconds
+setInterval(draw_balls,20);
