@@ -19,10 +19,16 @@
 		<label for='speed'>Speed:</label>
 		<input id='speed' type='number' value='2' min='0' max='10'></input>
 		<button id='go' onclick='new_clicked()'>New bubble</button>
+		<button onclick='document.location.reload()'>Reset</button>
 		<br></br>
 		<p id='info'>The x and y coordinates must be in [20,500], and the speed must be in [0,10].</p>
 	</div>
+	<!--Annoying place to have a script tag-->
 	<script src='script.js'></script>
+	<div id='display'>
+		<ul id='output'>
+		</ul>
+	</div>
 	<footer>
 		<p>&copy 2016 Matt Gaikema</p>
 	</footer>

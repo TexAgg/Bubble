@@ -17,12 +17,28 @@ class Bubble{
 	*Constructor for Bubble
 	*@param x,y, and speed should all be integers
 	*/
-	constructor(x,y,speed){
+	constructor(x,y,speed){		
 		this.x = x;
 		this.y = y;
-		this.dx = speed;
-		this.dy = -speed;
+		this.dx = speed * Bubble.pm1(); 
+		this.dy = speed * Bubble.pm1();
 		this.radius = ball_radius;
+		
+		//document.getElementById('output').innerHTML += "Bubble";
+	}
+	
+	/**
+	*Return plus or minus 1 to make the
+	*bubble go in a random direction
+	*@return plus or minus 1
+	*/
+	static pm1(){
+		if(Math.random()<0.5){
+			return -1;
+		}
+		else{
+			return 1;
+		}
 	}
 	
 	/**
@@ -102,7 +118,7 @@ function new_clicked(){
 	else{
 		
 		/*
-		Function inside a function- probably bad
+		Function inside a function: probably bad
 		*/
 		function safe(){
 			//console.log('calling safe');
@@ -134,6 +150,10 @@ function new_clicked(){
 		while(!safe()) safe();
 		balls.push(new Bubble(xval,yval,spdval));
 	}
+	
+	//Display random coordinates
+	document.getElementById('x').setAttribute('value',Math.floor(Math.random()*(canvas.width - 20)+20));
+	document.getElementById('y').setAttribute('value',Math.floor(Math.random()*(canvas.height - 20)+20));	
 }
 
 /**
@@ -152,10 +172,10 @@ function draw_balls(){
 
 
 //Make some random balls
-balls.push(new Bubble(100,45,2));
-balls.push(new Bubble(300,75,4));
-balls.push(new Bubble(100,400,3));
-balls.push(new Bubble(250,250,2));
+//balls.push(new Bubble(100,45,2));
+//balls.push(new Bubble(300,75,4));
+//balls.push(new Bubble(100,400,3));
+//balls.push(new Bubble(250,250,2));
 
 //redraw every 20 milliseconds
 setInterval(draw_balls,20);
