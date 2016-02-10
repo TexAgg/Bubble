@@ -24,7 +24,7 @@ class Bubble{
 		this.dy = speed * Bubble.pm1();
 		this.radius = ball_radius;
 		
-		//document.getElementById('output').innerHTML += "Bubble";
+		document.getElementById('output').innerHTML += "<li>Bubble "+ balls.length + " <button>Delete</button></li>";	
 	}
 	
 	/**
@@ -48,7 +48,7 @@ class Bubble{
 	label(n){
 		ctx.font = '20px sans-serif'
 		ctx.fillStyle = '#000000';
-		ctx.fillText(n,this.x,this.y);
+		ctx.fillText(n,this.x,this.y);	
 	}
 	
 	// http://processingjs.org/learning/topic/bouncybubbles/
@@ -138,8 +138,8 @@ function new_clicked(){
 					//console.log('danger!');
 					
 					flag = false;
-					xval = Math.floor(Math.random()*(canvas.width-20)+20);
-					yval = Math.floor(Math.random()*(canvas.height-20)+20);
+					xval = Math.floor(Math.random()*(canvas.width-30)+30);
+					yval = Math.floor(Math.random()*(canvas.height-30)+30);
 					
 					return false;
 				}
@@ -151,9 +151,12 @@ function new_clicked(){
 		balls.push(new Bubble(xval,yval,spdval));
 	}
 	
+	/*
+	Don't hard-code
+	*/
 	//Display random coordinates
-	document.getElementById('x').setAttribute('value',Math.floor(Math.random()*(canvas.width - 20)+20));
-	document.getElementById('y').setAttribute('value',Math.floor(Math.random()*(canvas.height - 20)+20));	
+	document.getElementById('x').setAttribute('value',Math.floor(Math.random()*(canvas.width - 30)+30));
+	document.getElementById('y').setAttribute('value',Math.floor(Math.random()*(canvas.height - 30)+30));	
 }
 
 /**

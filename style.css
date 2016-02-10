@@ -3,6 +3,12 @@
 	border: solid 1px;
 }
 
+#right
+{
+	/*position: relative;*/
+	float: left;
+}
+
 input[type=number]
 {
     width: 40px;
@@ -11,6 +17,23 @@ input[type=number]
 #info
 {
 	width: 510px;
+}
+
+#display
+{
+	/*position: relative;
+	left: 50px;*/
+	
+	float: left;
+	
+	border: solid 1px;
+	width: 600px;
+}
+
+li
+{
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 footer
