@@ -13,15 +13,14 @@
 	<canvas id='my_canvas' width='500' height='500'></canvas>
 	<div>
 		<label for='x'>x:</label>
-		<input id='x' type='number' value='250' min='0'></input>
+		<input id='x' type='number' value='250' min='20'></input>
 		<label for='y'>y:</label>
-		<input id='y' type='number' value='250' min='0'></input>
+		<input id='y' type='number' value='250' min='20'></input>
 		<label for='speed'>Speed:</label>
 		<input id='speed' type='number' value='2' min='0' max='10'></input>
 		<button id='go' onclick='new_clicked()'>New bubble</button>
 		<br></br>
-		<p id='info'>The x and y coordinates must be in [0,500], and the speed must be in [0,10].
-		When making a new bubble, try not to create it on top of a pre-existing bubble.</p>
+		<p id='info'>The x and y coordinates must be in [20,500], and the speed must be in [0,10].</p>
 	</div>
 	<script src='script.js'></script>
 	<footer>

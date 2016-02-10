@@ -11,10 +11,10 @@ document.getElementById('y').setAttribute('max',canvas.height);
 var ball_radius = 30;
 var balls = [];
 
-class Ball{
+class Bubble{
 	
 	/**
-	*Constructor for Ball
+	*Constructor for Bubble
 	*@param x,y, and speed should all be integers
 	*/
 	constructor(x,y,speed){
@@ -22,10 +22,11 @@ class Ball{
 		this.y = y;
 		this.dx = speed;
 		this.dy = -speed;
+		this.radius = ball_radius;
 	}
 	
 	/**
-	*Labels the ball
+	*Labels the Bubble
 	*@param any string (but preferably an int)
 	*/
 	label(n){
@@ -48,7 +49,7 @@ class Ball{
 					var ydy = balls[i].y - balls[j].y;
 					var dist = Math.sqrt(xdx*xdx + ydy*ydy);
 					
-					if(dist<2*ball_radius){
+					if(dist < balls[i].radius + balls[j].radius){
 						balls[i].dx = -balls[i].dx;
 						balls[i].dy = -balls[i].dy;
 						
@@ -66,15 +67,15 @@ class Ball{
 	draw(){
 		//ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.beginPath();
-		ctx.arc(this.x, this.y, ball_radius, 0, 2*Math.PI);
+		ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI);
         ctx.fillStyle = "#0095DD";
         ctx.fill();
         ctx.closePath();
 		
-		if(this.x + this.dx > canvas.width-ball_radius || this.x + this.dx < ball_radius) {
+		if(this.x + this.dx > canvas.width-this.radius || this.x + this.dx < this.radius) {
 			this.dx = -this.dx;
 		}
-		if(this.y + this.dy > canvas.height-ball_radius || this.y + this.dy < ball_radius) {
+		if(this.y + this.dy > canvas.height-this.radius || this.y + this.dy < this.radius) {
 			this.dy = -this.dy;
 		}		
 		
@@ -83,7 +84,7 @@ class Ball{
 	}
 }
 
-// ISSUE: Prevent bubbles from spawning on top of one another.
+// ISSUE: Prevent balls from spawning on top of one another.
 /**
 *Creates a new bubble using the information from the form.
 */
@@ -99,9 +100,39 @@ function new_clicked(){
 	if (xbad || ybad || spdbad)
 		alert("Invalid input!");
 	else{
-		//If there is already a ball in that coordinate, place
-		//the new bubble somewhere else
-		balls.push(new Ball(xval,yval,spdval));
+		
+		/*
+		Function inside a function- probably bad
+		*/
+		function safe(){
+			//console.log('calling safe');
+			
+			var flag = true;
+			for(var i = 0; i < balls.length; i++){
+				//console.log(i);
+				
+				var xdx = balls[i].x - xval;
+				var ydy = balls[i].y - yval;
+				var dist = Math.sqrt(xdx*xdx + ydy*ydy)+10;
+				
+				//console.log(dist);
+				//console.log(ball_radius + balls[i].radius);
+				
+				if(dist < ball_radius + balls[i].radius){
+					//console.log('danger!');
+					
+					flag = false;
+					xval = Math.floor(Math.random()*(canvas.width-20)+20);
+					yval = Math.floor(Math.random()*(canvas.height-20)+20);
+					
+					return false;
+				}
+			}
+			return true;
+		}
+		
+		while(!safe()) safe();
+		balls.push(new Bubble(xval,yval,spdval));
 	}
 }
 
@@ -111,7 +142,7 @@ function new_clicked(){
 function draw_balls(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	
-	Ball.collide()
+	Bubble.collide()
 	
 	for(var i = 0; i < balls.length; i++){
 		balls[i].draw();
@@ -121,10 +152,10 @@ function draw_balls(){
 
 
 //Make some random balls
-balls.push(new Ball(100,45,2));
-balls.push(new Ball(300,75,4));
-balls.push(new Ball(100,400,3));
-balls.push(new Ball(250,250,2));
+balls.push(new Bubble(100,45,2));
+balls.push(new Bubble(300,75,4));
+balls.push(new Bubble(100,400,3));
+balls.push(new Bubble(250,250,2));
 
 //redraw every 20 milliseconds
 setInterval(draw_balls,20);
