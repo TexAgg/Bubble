@@ -2,3 +2,8 @@
 {
 	border: solid 1px;
 }
+
+input[type=number]
+{
+    width: 40px;
+} 
