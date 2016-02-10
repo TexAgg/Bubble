@@ -69,6 +69,7 @@ class Ball{
 	}
 }
 
+// Prevent bubbles from spawning on top of one another.
 function new_clicked(){
 	var xval = parseInt(document.getElementById('x').value);
 	var yval = parseInt(document.getElementById('y').value);
@@ -78,12 +79,11 @@ function new_clicked(){
 	var ybad = (yval < document.getElementById('y').getAttribute('min')) || (yval > document.getElementById('y').getAttribute('max'));
 	var spdbad = (spdval < document.getElementById('speed').getAttribute('min')) || (spdval > document.getElementById('speed').getAttribute('max'));
 
-		if (xbad || ybad || spdbad)
-			alert("Invalid input!");
-		else{
-			console.log(yval);
-			balls.push(new Ball(xval,yval,spdval));
-		}
+	if (xbad || ybad || spdbad)
+		alert("Invalid input!");
+	else{
+		balls.push(new Ball(xval,yval,spdval));
+	}
 }
 
 function draw_balls(){
