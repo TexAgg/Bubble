@@ -13,6 +13,10 @@ var balls = [];
 
 class Ball{
 	
+	/**
+	*Constructor for Ball
+	*@param x,y, and speed should all be integers
+	*/
 	constructor(x,y,speed){
 		this.x = x;
 		this.y = y;
@@ -20,6 +24,10 @@ class Ball{
 		this.dy = -speed;
 	}
 	
+	/**
+	*Labels the ball
+	*@param any string (but preferably an int)
+	*/
 	label(n){
 		ctx.font = '20px sans-serif'
 		ctx.fillStyle = '#000000';
@@ -27,6 +35,9 @@ class Ball{
 	}
 	
 	// http://processingjs.org/learning/topic/bouncybubbles/
+	/**
+	*Simulate bouncing off other balls
+	*/
 	static collide(){
 		for(var i = 0; i<balls.length; i++){
 			for(var j = i+1; j < balls.length; j++){
@@ -49,6 +60,9 @@ class Ball{
 		}
 	}
 	
+	/**
+	*Draw the bubble, and simulate bouncing off walls
+	*/
 	draw(){
 		//ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.beginPath();
@@ -69,7 +83,10 @@ class Ball{
 	}
 }
 
-// Prevent bubbles from spawning on top of one another.
+// ISSUE: Prevent bubbles from spawning on top of one another.
+/**
+*Creates a new bubble using the information from the form.
+*/
 function new_clicked(){
 	var xval = parseInt(document.getElementById('x').value);
 	var yval = parseInt(document.getElementById('y').value);
@@ -82,10 +99,15 @@ function new_clicked(){
 	if (xbad || ybad || spdbad)
 		alert("Invalid input!");
 	else{
+		//If there is already a ball in that coordinate, place
+		//the new bubble somewhere else
 		balls.push(new Ball(xval,yval,spdval));
 	}
 }
 
+/**
+*Redraw every bubble to simulate movement
+*/
 function draw_balls(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	
