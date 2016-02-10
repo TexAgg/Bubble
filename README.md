@@ -7,7 +7,7 @@ Bubbles will float around aimlessly, heading the opposite direction whenever col
 another bubble.
 When creating a new bubble, try not to place it on top of a prexisting bubble.
 
-# Future developments
+# Possible future developments
 + Fix bug when bubble spawns on top a pre-existing bubble.
 + Add option to edit radius and color.
 + Delete bubbles.
