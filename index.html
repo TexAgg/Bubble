@@ -7,12 +7,12 @@
 	<canvas id='my_canvas' width='500' height='500'></canvas>
 	<div>
 		<label for='x'>x:</label>
-		<input id='x' type='number'></input>
-		<label id='y'>y:</label>
-		<input id='y' type='number'></input>
+		<input id='x' type='number' value='250' min='0'></input>
+		<label for='y'>y:</label>
+		<input id='y' type='number' value='250' min='0'></input>
 		<label for='speed'>Speed:</label>
-		<input id='speed' type='number'></input>
-		<button id='go'>New bubble</button>
+		<input id='speed' type='number' value='2' min='0' max='10'></input>
+		<button id='go' onclick='new_clicked()'>New bubble</button>
 	</div>
 	<script src='script.js'></script>
 </body>

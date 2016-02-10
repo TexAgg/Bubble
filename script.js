@@ -1,12 +1,14 @@
-// https://developer.mozilla.org/en-US/docs/Games/Workflows/2D_Breakout_game_pure_JavaScript/Bounce_off_the_walls
-
 'use strict';
 
 var canvas = document.getElementById('my_canvas');
 var ctx = canvas.getContext("2d");
 
-var ball_radius = 30;
+document.getElementById('x').setAttribute('max',canvas.width);
+document.getElementById('y').setAttribute('max',canvas.height);
 
+//console.log(document.getElementById('x').getAttribute('max'));
+
+var ball_radius = 30;
 var balls = [];
 
 class Ball{
@@ -19,6 +21,7 @@ class Ball{
 	}
 	
 	label(n){
+		ctx.font = '20px sans-serif'
 		ctx.fillStyle = '#000000';
 		ctx.fillText(n,this.x,this.y);
 	}
@@ -66,6 +69,23 @@ class Ball{
 	}
 }
 
+function new_clicked(){
+	var xval = parseInt(document.getElementById('x').value);
+	var yval = parseInt(document.getElementById('y').value);
+	var spdval = parseInt(document.getElementById('speed').value);
+	
+	var xbad = (xval < document.getElementById('x').getAttribute('min')) || (xval > document.getElementById('x').getAttribute('max'));
+	var ybad = (yval < document.getElementById('y').getAttribute('min')) || (yval > document.getElementById('y').getAttribute('max'));
+	var spdbad = (spdval < document.getElementById('speed').getAttribute('min')) || (spdval > document.getElementById('speed').getAttribute('max'));
+
+		if (xbad || ybad || spdbad)
+			alert("Invalid input!");
+		else{
+			console.log(yval);
+			balls.push(new Ball(xval,yval,spdval));
+		}
+}
+
 function draw_balls(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	
@@ -77,6 +97,8 @@ function draw_balls(){
 	}
 }
 
+
+//Make some random balls
 balls.push(new Ball(100,45,2));
 balls.push(new Ball(300,75,4));
 balls.push(new Ball(100,400,3));
