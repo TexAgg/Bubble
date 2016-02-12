@@ -1,11 +1,15 @@
-/* 
-	ISSUES:
-	1. Remove button for removed element
-	2. Renumber and reposition remaining buttons
-	3. Renumber balls
-	4. Fix bug where sometimes the wrong bubble is deleted
- */
+/**
+* script.js
+* This file defines the Bubble class and controls
+* the behavior of the bubbles and the canvas.
+*
+* @summary Define bubble behavior
+* @author Matt Gaikema
+* @since 2/12/16
+* @link https://dl.dropboxusercontent.com/u/222607174/Bubble/index.html
+*/
 
+//This is to define my own class
 'use strict';
 
 var canvas = document.getElementById('my_canvas');
@@ -14,16 +18,20 @@ var ctx = canvas.getContext("2d");
 document.getElementById('x').setAttribute('max',canvas.width);
 document.getElementById('y').setAttribute('max',canvas.height);
 
-//console.log(document.getElementById('x').getAttribute('max'));
-
 var ball_radius = 30;
-var balls = [];
+var balls = []; //Storage for all the Bubbles
 
+
+/**
+* @classdec A bubble has a radius, x-coordinate, y-coordinate,
+* an x-velocity, a y-velocity, and a number representing its
+* position in the balls vector
+*/
 class Bubble{
 	
 	/**
-	*Constructor for Bubble
-	*@param x,y, and speed should all be integers
+	* Constructor for Bubble
+	* @param x,y, and speed should all be integers
 	*/
 	constructor(x,y,speed){		
 		this.x = x;
@@ -40,9 +48,9 @@ class Bubble{
 	}
 	
 	/**
-	*Return plus or minus 1 to make the
-	*bubble go in a random direction
-	*@return plus or minus 1
+	* Return plus or minus 1 to make the
+	* bubble go in a random direction
+	* @return plus or minus 1
 	*/
 	static pm1(){
 		if(Math.random()<0.5){
@@ -54,18 +62,13 @@ class Bubble{
 	}
 	
 	/**
-	*Removes the selected bubble 
+	* Removes the selected bubble 
 	*/
 	static remove(n){
 		balls.splice(n,1);
 		//Renumber all the balls
 		for(var i = n; i < balls.length; i++)
 			balls[i].number--;
-		
-		//console.log(n);
-		//console.log("Removing");
-		
-		//document.getElementById(n).innerHTML = '';
 		
 		document.getElementById('output').innerHTML = '';
 		
@@ -76,20 +79,18 @@ class Bubble{
 	};
 	
 	/**
-	*Labels the Bubble
-	*@param any string (but preferably an int)
+	* Labels the Bubble
+	* @param any string (but preferably an int)
 	*/
 	label(){
 		ctx.font = '20px sans-serif'
 		ctx.fillStyle = '#000000';
-		ctx.fillText(this.number,this.x,this.y);
-
-		//document.getElementById('output').innerHTML += "<li id="+this.number+">Bubble "+ this.number + " <button onclick='Bubble.remove("+this.number+")'>Delete</button></li>";			
+		ctx.fillText(this.number,this.x,this.y);		
 	}
 	
 	// http://processingjs.org/learning/topic/bouncybubbles/
 	/**
-	*Simulate bouncing off other balls
+	* Simulate bouncing off other balls
 	*/
 	static collide(){
 		for(var i = 0; i<balls.length; i++){
@@ -112,7 +113,7 @@ class Bubble{
 	}
 	
 	/**
-	*Draw the bubble, and simulate bouncing off walls
+	* Draw the bubble, and simulate bouncing off walls
 	*/
 	draw(){
 		ctx.beginPath();
@@ -134,7 +135,7 @@ class Bubble{
 }
 
 /**
-*Creates a new bubble using the information from the form.
+* Creates a new bubble using the information from the form.
 */
 function new_clicked(){
 	var xval = parseInt(document.getElementById('x').value);
@@ -183,22 +184,10 @@ function new_clicked(){
 	document.getElementById('y').setAttribute('value',Math.floor(Math.random()*(canvas.height - 30)+30));	
 }
 
-/*
-function remove(n){
-	balls.splice(n,1);
-	//Renumber all the balls
-	console.log(n);
-	console.log("Removing");
-	//return false;
-}
-*/
-
 /**
-*Redraw every bubble to simulate movement
+* Redraw every bubble to simulate movement
 */
 function draw_balls(){
-	//document.getElementById('output').innerHTML = '';
-	
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	
 	Bubble.collide()
