@@ -25,21 +25,22 @@ var balls = []; //Storage for all the Bubbles
 /**
 * @classdec A bubble has a radius, x-coordinate, y-coordinate,
 * an x-velocity, a y-velocity, and a number representing its
-* position in the balls vector
+* position in the balls vector, as well as a color
 */
 class Bubble{
 	
 	/**
 	* Constructor for Bubble
-	* @param x,y, and speed should all be integers
+	* @param x, y, speed, and radius should all be integers
 	*/
-	constructor(x,y,speed){		
+	constructor(x,y,speed,radius){		
 		this.x = x;
 		this.y = y;
 		this.dx = speed * Bubble.pm1(); 
 		this.dy = speed * Bubble.pm1();
-		this.radius = ball_radius;
-		
+		//this.radius = ball_radius;
+		this.radius = radius;
+		this.color = "#" + Math.random().toString(16).slice(2, 8);
 		//Since new bubbles are popped to the back of balls,
 		//this represents the ball's index in the array
 		this.number = balls.length;
@@ -118,7 +119,8 @@ class Bubble{
 	draw(){
 		ctx.beginPath();
 		ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI);
-        ctx.fillStyle = "#0095DD";
+        //ctx.fillStyle = "#0095DD";
+		ctx.fillStyle = this.color;
         ctx.fill();
         ctx.closePath();
 		
@@ -141,6 +143,7 @@ function new_clicked(){
 	var xval = parseInt(document.getElementById('x').value);
 	var yval = parseInt(document.getElementById('y').value);
 	var spdval = parseInt(document.getElementById('speed').value);
+	var rval = parseInt(document.getElementById('radius').value);
 	
 	var xbad = (xval < document.getElementById('x').getAttribute('min')) || (xval > document.getElementById('x').getAttribute('max'));
 	var ybad = (yval < document.getElementById('y').getAttribute('min')) || (yval > document.getElementById('y').getAttribute('max'));
@@ -161,7 +164,7 @@ function new_clicked(){
 				var ydy = balls[i].y - yval;
 				var dist = Math.sqrt(xdx*xdx + ydy*ydy)+10;
 				
-				if(dist < ball_radius + balls[i].radius){		
+				if(dist < rval + balls[i].radius){		
 					flag = false;
 					xval = Math.floor(Math.random()*(canvas.width-30)+30);
 					yval = Math.floor(Math.random()*(canvas.height-30)+30);
@@ -173,7 +176,7 @@ function new_clicked(){
 		}
 		
 		while(!safe()) safe();
-		balls.push(new Bubble(xval,yval,spdval));
+		balls.push(new Bubble(xval,yval,spdval,rval));
 	}
 	
 	/*
