@@ -1,8 +1,16 @@
+body
+{
+	background: #ccffff;
+}
+
 #my_canvas
 {
 	border: solid 1px;
+	background: #ffffff;
 }
 
+/*I dont remember why I
+called it this*/
 #right
 {
 	/*position: relative;*/
@@ -28,6 +36,8 @@ input[type=number]
 	
 	border: solid 1px;
 	width: 600px;
+	
+	background: #ffffff;
 }
 
 li

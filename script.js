@@ -20,7 +20,7 @@ document.getElementById('y').setAttribute('max',canvas.height);
 
 var ball_radius = 30;
 var balls = []; //Storage for all the Bubbles
-
+var max_balls = 25;
 
 /**
 * @classdec A bubble has a radius, x-coordinate, y-coordinate,
@@ -40,10 +40,11 @@ class Bubble{
 		this.dy = speed * Bubble.pm1();
 		this.radius = radius;
 		//Random color: http://www.paulirish.com/2009/random-hex-color-code-snippets/
-		//this.color = "#" + Math.random().toString(16).slice(2, 8);
-		this.color =ctx.createLinearGradient(0,0,170,0);
-		this.color.addColorStop(0,"white");
-		this.color.addColorStop(1,"#" + Math.random().toString(16).slice(2, 8));
+		this.color = "#" + Math.random().toString(16).slice(2, 8);
+		//this.color =ctx.createRadialGradient(this.x,this.y,this.radius-5,this.x,this.y,this.radius);
+		//this.color.addColorStop(0,"white");
+		//this.color.addColorStop(1,"#" + Math.random().toString(16).slice(2, 8));
+		
 		//Since new bubbles are popped to the back of balls,
 		//this represents the ball's index in the array
 		this.number = balls.length;
@@ -104,7 +105,7 @@ class Bubble{
 					var ydy = balls[i].y - balls[j].y;
 					var dist = Math.sqrt(xdx*xdx + ydy*ydy);
 					
-					if(dist < balls[i].radius + balls[j].radius){
+					if(dist <= balls[i].radius + balls[j].radius){
 						balls[i].dx = -balls[i].dx;
 						balls[i].dy = -balls[i].dy;
 						
@@ -127,10 +128,10 @@ class Bubble{
         ctx.fill();
         ctx.closePath();
 		
-		if(this.x + this.dx > canvas.width-this.radius || this.x + this.dx < this.radius) {
+		if(this.x + this.dx >= canvas.width-this.radius || this.x + this.dx <= this.radius) {
 			this.dx = -this.dx;
 		}
-		if(this.y + this.dy > canvas.height-this.radius || this.y + this.dy < this.radius) {
+		if(this.y + this.dy >= canvas.height-this.radius || this.y + this.dy <= this.radius) {
 			this.dy = -this.dy;
 		}		
 		
@@ -143,6 +144,12 @@ class Bubble{
 * Creates a new bubble using the information from the form.
 */
 function new_clicked(){
+	
+	if(balls.length >= max_balls){
+		alert("Too many balls! Please delete some.")
+		return;
+	}
+	
 	var xval = parseInt(document.getElementById('x').value);
 	var yval = parseInt(document.getElementById('y').value);
 	var spdval = parseInt(document.getElementById('speed').value);
