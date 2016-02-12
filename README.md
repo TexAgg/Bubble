@@ -1,5 +1,3 @@
-![Play it!](https://dl.dropboxusercontent.com/u/222607174/Bubble/index.html)
-
 # Bubble
 Balls that bounce off the walls and each other.
 
