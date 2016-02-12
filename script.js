@@ -40,7 +40,10 @@ class Bubble{
 		this.dy = speed * Bubble.pm1();
 		this.radius = radius;
 		//Random color: http://www.paulirish.com/2009/random-hex-color-code-snippets/
-		this.color = "#" + Math.random().toString(16).slice(2, 8);
+		//this.color = "#" + Math.random().toString(16).slice(2, 8);
+		this.color =ctx.createLinearGradient(0,0,170,0);
+		this.color.addColorStop(0,"white");
+		this.color.addColorStop(1,"#" + Math.random().toString(16).slice(2, 8));
 		//Since new bubbles are popped to the back of balls,
 		//this represents the ball's index in the array
 		this.number = balls.length;
