@@ -8,9 +8,9 @@ another bubble.
 
 # Possible future developments
 + Fix bugs.
-+ Add option to edit radius and color.
 + Spawn random bubble.
 + Make the direction more random.
 + Display the information for all the bubbles to the side.
++ Improve visuals and graphics.
 
 **Works best in Google Chrome.**
