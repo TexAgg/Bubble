@@ -38,8 +38,8 @@ class Bubble{
 		this.y = y;
 		this.dx = speed * Bubble.pm1(); 
 		this.dy = speed * Bubble.pm1();
-		//this.radius = ball_radius;
 		this.radius = radius;
+		//Random color: http://www.paulirish.com/2009/random-hex-color-code-snippets/
 		this.color = "#" + Math.random().toString(16).slice(2, 8);
 		//Since new bubbles are popped to the back of balls,
 		//this represents the ball's index in the array
@@ -148,8 +148,9 @@ function new_clicked(){
 	var xbad = (xval < document.getElementById('x').getAttribute('min')) || (xval > document.getElementById('x').getAttribute('max'));
 	var ybad = (yval < document.getElementById('y').getAttribute('min')) || (yval > document.getElementById('y').getAttribute('max'));
 	var spdbad = (spdval < document.getElementById('speed').getAttribute('min')) || (spdval > document.getElementById('speed').getAttribute('max'));
-
-	if (xbad || ybad || spdbad)
+	var rbad = (rval < document.getElementById('radius').getAttribute('min')) || (rval > document.getElementById('radius').getAttribute('max'));
+	
+	if (xbad || ybad || spdbad || rbad)
 		alert("Invalid input!");
 	else{
 		
