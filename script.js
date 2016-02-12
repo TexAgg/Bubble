@@ -1,3 +1,11 @@
+/* 
+	ISSUES:
+	1. Remove button for removed element
+	2. Renumber and reposition remaining buttons
+	3. Renumber balls
+	4. Fix bug where sometimes the wrong bubble is deleted
+ */
+
 'use strict';
 
 var canvas = document.getElementById('my_canvas');
@@ -24,7 +32,11 @@ class Bubble{
 		this.dy = speed * Bubble.pm1();
 		this.radius = ball_radius;
 		
-		document.getElementById('output').innerHTML += "<li>Bubble "+ balls.length + " <button>Delete</button></li>";	
+		//Since new bubbles are popped to the back of balls,
+		//this represents the ball's index in the array
+		this.number = balls.length;
+		
+		document.getElementById('output').innerHTML += "<li id="+this.number+">Bubble "+ this.number + " <button onclick='Bubble.remove("+this.number+")'>Delete</button></li>";	
 	}
 	
 	/**
@@ -42,13 +54,37 @@ class Bubble{
 	}
 	
 	/**
+	*Removes the selected bubble 
+	*/
+	static remove(n){
+		balls.splice(n,1);
+		//Renumber all the balls
+		for(var i = n; i < balls.length; i++)
+			balls[i].number--;
+		
+		//console.log(n);
+		//console.log("Removing");
+		
+		//document.getElementById(n).innerHTML = '';
+		
+		document.getElementById('output').innerHTML = '';
+		
+		for(var i=0;i<balls.length;i++){
+			document.getElementById('output').innerHTML += "<li id="+balls[i].number+">Bubble "+ balls[i].number 
+				+ " <button onclick='Bubble.remove("+balls[i].number+")'>Delete</button></li>";				
+		}
+	};
+	
+	/**
 	*Labels the Bubble
 	*@param any string (but preferably an int)
 	*/
-	label(n){
+	label(){
 		ctx.font = '20px sans-serif'
 		ctx.fillStyle = '#000000';
-		ctx.fillText(n,this.x,this.y);	
+		ctx.fillText(this.number,this.x,this.y);
+
+		//document.getElementById('output').innerHTML += "<li id="+this.number+">Bubble "+ this.number + " <button onclick='Bubble.remove("+this.number+")'>Delete</button></li>";			
 	}
 	
 	// http://processingjs.org/learning/topic/bouncybubbles/
@@ -58,8 +94,6 @@ class Bubble{
 	static collide(){
 		for(var i = 0; i<balls.length; i++){
 			for(var j = i+1; j < balls.length; j++){
-				//console.log('i='+i);
-				//console.log('j='+j);
 				if(i!=j){
 					var xdx = balls[i].x - balls[j].x;
 					var ydy = balls[i].y - balls[j].y;
@@ -81,7 +115,6 @@ class Bubble{
 	*Draw the bubble, and simulate bouncing off walls
 	*/
 	draw(){
-		//ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.beginPath();
 		ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI);
         ctx.fillStyle = "#0095DD";
@@ -100,7 +133,6 @@ class Bubble{
 	}
 }
 
-// ISSUE: Prevent balls from spawning on top of one another.
 /**
 *Creates a new bubble using the information from the form.
 */
@@ -121,22 +153,14 @@ function new_clicked(){
 		Function inside a function: probably bad
 		*/
 		function safe(){
-			//console.log('calling safe');
-			
 			var flag = true;
 			for(var i = 0; i < balls.length; i++){
-				//console.log(i);
 				
 				var xdx = balls[i].x - xval;
 				var ydy = balls[i].y - yval;
 				var dist = Math.sqrt(xdx*xdx + ydy*ydy)+10;
 				
-				//console.log(dist);
-				//console.log(ball_radius + balls[i].radius);
-				
-				if(dist < ball_radius + balls[i].radius){
-					//console.log('danger!');
-					
+				if(dist < ball_radius + balls[i].radius){		
 					flag = false;
 					xval = Math.floor(Math.random()*(canvas.width-30)+30);
 					yval = Math.floor(Math.random()*(canvas.height-30)+30);
@@ -159,17 +183,29 @@ function new_clicked(){
 	document.getElementById('y').setAttribute('value',Math.floor(Math.random()*(canvas.height - 30)+30));	
 }
 
+/*
+function remove(n){
+	balls.splice(n,1);
+	//Renumber all the balls
+	console.log(n);
+	console.log("Removing");
+	//return false;
+}
+*/
+
 /**
 *Redraw every bubble to simulate movement
 */
 function draw_balls(){
+	//document.getElementById('output').innerHTML = '';
+	
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	
 	Bubble.collide()
 	
 	for(var i = 0; i < balls.length; i++){
 		balls[i].draw();
-		balls[i].label(i);
+		balls[i].label();
 	}
 }
 
