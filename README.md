@@ -14,4 +14,4 @@ another bubble.
 + Make the direction more random.
 + Display the information for all the bubbles to the side.
 
-**Does not work in FireFox.**
+**Works best in Google Chrome.**
