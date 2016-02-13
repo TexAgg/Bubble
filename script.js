@@ -20,7 +20,7 @@ document.getElementById('y').setAttribute('max',canvas.height);
 
 var ball_radius = 30;
 var balls = []; //Storage for all the Bubbles
-var max_balls = 25;
+var max_balls = 30;
 
 /**
 * @classdec A bubble has a radius, x-coordinate, y-coordinate,
