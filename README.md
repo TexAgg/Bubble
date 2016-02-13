@@ -12,5 +12,6 @@ another bubble.
 + Make the direction more random.
 + Display the information for all the bubbles to the side.
 + Improve visuals and graphics.
++ Optional tracer lines to follow bubbles.
 
 **Works best in Google Chrome.**
