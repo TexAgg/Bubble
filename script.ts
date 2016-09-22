@@ -1,5 +1,5 @@
 /**
-* script.js
+* script.ts
 * This file defines the Bubble class and controls
 * the behavior of the bubbles and the canvas.
 *
@@ -9,31 +9,44 @@
 * @link https://dl.dropboxusercontent.com/u/222607174/Bubble/index.html
 */
 
-//This is to define my own class
-'use strict';
+// Set up the game
 
-var canvas = document.getElementById('my_canvas');
-var ctx = canvas.getContext("2d");
+let canvas = <HTMLCanvasElement> document.getElementById('my_canvas');
+let ctx = canvas.getContext("2d");
 
-document.getElementById('x').setAttribute('max',canvas.width);
-document.getElementById('y').setAttribute('max',canvas.height);
+document.getElementById('x').setAttribute('max', String(canvas.width));
+document.getElementById('y').setAttribute('max', String(canvas.height));
 
-var ball_radius = 30;
-var balls = []; //Storage for all the Bubbles
-var max_balls = 30;
+let ball_radius = 30;
+let balls: Array< Bubble> = []; //Storage for all the Bubbles
+let max_balls = 30;
 
 /**
 * @classdec A bubble has a radius, x-coordinate, y-coordinate,
 * an x-velocity, a y-velocity, and a number representing its
 * position in the balls vector, as well as a color
 */
-class Bubble{
+class Bubble
+{
+	
+	public x: number;
+	public y: number;
+
+	public dx: number;
+	public dy: number;
+
+	public radius: number;
+
+	private color;
+
+	private number: number;
 	
 	/**
 	* Constructor for Bubble
 	* @param x, y, speed, and radius should all be integers
 	*/
-	constructor(x,y,speed,radius){		
+	constructor(x,y,speed,radius)
+	{
 		this.x = x;
 		this.y = y;
 		this.dx = speed * Bubble.pm1(); 
@@ -57,27 +70,28 @@ class Bubble{
 	* bubble go in a random direction
 	* @return plus or minus 1
 	*/
-	static pm1(){
-		if(Math.random()<0.5){
+	static pm1()
+	{
+		if(Math.random()<0.5)
 			return -1;
-		}
-		else{
+		else
 			return 1;
-		}
 	}
 	
 	/**
 	* Removes the selected bubble 
 	*/
-	static remove(n){
+	static remove(n)
+	{
 		balls.splice(n,1);
 		//Renumber all the balls
-		for(var i = n; i < balls.length; i++)
+		for(let i = n; i < balls.length; i++)
 			balls[i].number--;
 		
 		document.getElementById('output').innerHTML = '';
 		
-		for(var i=0;i<balls.length;i++){
+		for(let i=0;i<balls.length;i++)
+		{
 			document.getElementById('output').innerHTML += "<li id="+balls[i].number+">Bubble "+ balls[i].number 
 				+ " <button onclick='Bubble.remove("+balls[i].number+")'>Delete</button></li>";				
 		}
@@ -87,25 +101,31 @@ class Bubble{
 	* Labels the Bubble
 	* @param any string (but preferably an int)
 	*/
-	label(){
+	label()
+	{
 		ctx.font = '20px sans-serif';
 		ctx.fillStyle = '#000000';
-		ctx.fillText(this.number,this.x,this.y);		
+		ctx.fillText(String(this.number), this.x, this.y);		
 	}
 	
 	// http://processingjs.org/learning/topic/bouncybubbles/
 	/**
 	* Simulate bouncing off other balls
 	*/
-	static collide(){
-		for(var i = 0; i<balls.length; i++){
-			for(var j = i+1; j < balls.length; j++){
-				if(i!=j){
-					var xdx = balls[i].x - balls[j].x;
-					var ydy = balls[i].y - balls[j].y;
-					var dist = Math.sqrt(xdx*xdx + ydy*ydy);
+	static collide(): void
+	{
+		for(let i = 0; i<balls.length; i++)
+		{
+			for(let j = i+1; j < balls.length; j++)
+			{
+				if(i!=j)
+				{
+					let xdx = balls[i].x - balls[j].x;
+					let ydy = balls[i].y - balls[j].y;
+					let dist = Math.sqrt(xdx*xdx + ydy*ydy);
 					
-					if(dist <= balls[i].radius + balls[j].radius){
+					if(dist <= balls[i].radius + balls[j].radius)
+					{
 						balls[i].dx = -balls[i].dx;
 						balls[i].dy = -balls[i].dy;
 						
@@ -120,7 +140,8 @@ class Bubble{
 	/**
 	* Draw the bubble, and simulate bouncing off walls
 	*/
-	draw(){
+	public draw(): void
+	{
 		ctx.beginPath();
 		ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI);
         //ctx.fillStyle = "#0095DD";
@@ -128,10 +149,12 @@ class Bubble{
         ctx.fill();
         ctx.closePath();
 		
-		if(this.x + this.dx >= canvas.width-this.radius || this.x + this.dx <= this.radius) {
+		if(this.x + this.dx >= canvas.width-this.radius || this.x + this.dx <= this.radius) 
+		{
 			this.dx = -this.dx;
 		}
-		if(this.y + this.dy >= canvas.height-this.radius || this.y + this.dy <= this.radius) {
+		if(this.y + this.dy >= canvas.height-this.radius || this.y + this.dy <= this.radius) 
+		{
 			this.dy = -this.dy;
 		}		
 		
@@ -143,42 +166,47 @@ class Bubble{
 /**
 * Creates a new bubble using the information from the form.
 */
-function new_clicked(){
+function new_clicked(): void
+{
 	
 	if(balls.length >= max_balls){
 		alert("Too many balls! Please delete some.")
 		return;
 	}
 	
-	var xval = parseInt(document.getElementById('x').value);
-	var yval = parseInt(document.getElementById('y').value);
-	var spdval = parseInt(document.getElementById('speed').value);
-	var rval = parseInt(document.getElementById('radius').value);
+	let xval: number = parseInt((<HTMLInputElement>document.getElementById('x')).value);
+	let yval: number = parseInt((<HTMLInputElement>document.getElementById('y')).value);
+	let spdval: number = parseInt((<HTMLInputElement>document.getElementById('speed')).value);
+	let rval: number = parseInt((<HTMLInputElement>document.getElementById('radius')).value);
 	
-	var xbad = (xval < document.getElementById('x').getAttribute('min')) || (xval > document.getElementById('x').getAttribute('max'));
-	var ybad = (yval < document.getElementById('y').getAttribute('min')) || (yval > document.getElementById('y').getAttribute('max'));
-	var spdbad = (spdval < document.getElementById('speed').getAttribute('min')) || (spdval > document.getElementById('speed').getAttribute('max'));
-	var rbad = (rval < document.getElementById('radius').getAttribute('min')) || (rval > document.getElementById('radius').getAttribute('max'));
+	let xbad: boolean = (xval < parseInt(document.getElementById('x').getAttribute('min')) || (xval > parseInt(document.getElementById('x').getAttribute('max'))) );
+	let ybad: boolean = (yval < parseInt(document.getElementById('y').getAttribute('min'))) || (yval > parseInt(document.getElementById('y').getAttribute('max')));
+	let spdbad: boolean = (spdval < parseInt(document.getElementById('speed').getAttribute('min'))) || (spdval > parseInt(document.getElementById('speed').getAttribute('max')));
+	let rbad: boolean = (rval < parseInt(document.getElementById('radius').getAttribute('min'))) || (rval > parseInt(document.getElementById('radius').getAttribute('max')));
 	
 	if (xbad || ybad || spdbad || rbad)
 		alert("Invalid input!");
-	else{
+	else
+	{
 		
 		/*
 		Function inside a function: probably bad
 		*/
-		function safe(){
-			var flag = true;
-			for(var i = 0; i < balls.length; i++){
+		function safe(): boolean
+		{
+			let flag = true;
+			for(let i = 0; i < balls.length; i++)
+			{
 				
-				var xdx = balls[i].x - xval;
-				var ydy = balls[i].y - yval;
-				var dist = Math.sqrt(xdx*xdx + ydy*ydy)+10;
+				let xdx = balls[i].x - xval;
+				let ydy = balls[i].y - yval;
+				let dist = Math.sqrt(xdx*xdx + ydy*ydy)+10;
 				
-				if(dist < rval + balls[i].radius){		
+				if(dist < rval + balls[i].radius)
+				{		
 					flag = false;
-					xval = Math.floor(Math.random()*(canvas.width-30)+30);
-					yval = Math.floor(Math.random()*(canvas.height-30)+30);
+					xval = Math.floor(Math.random() * (canvas.width-30)+30);
+					yval = Math.floor(Math.random() * (canvas.height-30)+30);
 					
 					return false;
 				}
@@ -194,19 +222,23 @@ function new_clicked(){
 	Don't hard-code
 	*/
 	//Display random coordinates
-	document.getElementById('x').setAttribute('value',Math.floor(Math.random()*(canvas.width - 30)+30));
-	document.getElementById('y').setAttribute('value',Math.floor(Math.random()*(canvas.height - 30)+30));	
+	document.getElementById('x').setAttribute('value', String(Math.floor(Math.random()*(canvas.width - 30)+30)));
+	document.getElementById('y').setAttribute('value', String(Math.floor(Math.random()*(canvas.height - 30)+30)));
 }
+
+// Game loop starts:
 
 /**
 * Redraw every bubble to simulate movement
 */
-function draw_balls(){
+function draw_balls()
+{
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	
 	Bubble.collide()
 	
-	for(var i = 0; i < balls.length; i++){
+	for(let i = 0; i < balls.length; i++)
+	{
 		balls[i].draw();
 		balls[i].label();
 	}

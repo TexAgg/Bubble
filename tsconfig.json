@@ -5,7 +5,6 @@
     	"outDir": "build"
 	},
 	"files": [
-		"main.ts",
-		"Bubble.ts"
+		"script.ts"
 	]
 }
