@@ -1,0 +1,11 @@
+{
+	"compilerOptions": {
+		"removeComments": true,	
+		"module": "commonjs",
+    	"outDir": "build"
+	},
+	"files": [
+		"main.ts",
+		"Bubble.ts"
+	]
+}
