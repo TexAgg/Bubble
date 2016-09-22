@@ -9,5 +9,5 @@ document.getElementById('x').setAttribute('max', String(canvas.width));
 document.getElementById('y').setAttribute('max', String(canvas.height));
 
 let ball_radius: number = 30;
-let balls = []; //Storage for all the Bubbles
+let balls: Array< Bubble > = []; //Storage for all the Bubbles
 let max_balls: number = 30;

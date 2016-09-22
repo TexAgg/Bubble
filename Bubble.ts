@@ -30,6 +30,7 @@ export class Bubble
 
 	public label(): void
 	{
-
+		this.ctx.font = '20px sans-serif';
+		this.ctx.fillStyle = '#000000';
 	}
 }

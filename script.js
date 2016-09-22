@@ -88,7 +88,7 @@ class Bubble{
 	* @param any string (but preferably an int)
 	*/
 	label(){
-		ctx.font = '20px sans-serif'
+		ctx.font = '20px sans-serif';
 		ctx.fillStyle = '#000000';
 		ctx.fillText(this.number,this.x,this.y);		
 	}
